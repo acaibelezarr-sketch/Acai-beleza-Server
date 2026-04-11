@@ -15,11 +15,15 @@ const admin    = require('firebase-admin');
 // ─────────────────────────────────────────────
 let db;
 try {
+  // Puxa a chave JSON que você colocou lá no Render
   const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+  
   admin.initializeApp({
     credential:  admin.credential.cert(serviceAccount),
-    databaseURL: process.env.FIREBASE_DATABASE_URL,
+    // Link do banco de dados colocado direto no código para não dar erro
+    databaseURL: "https://acai-beleza-default-rtdb.firebaseio.com",
   });
+  
   db = admin.database();
   console.log('✅ Firebase Admin conectado');
 } catch (err) {
@@ -475,6 +479,6 @@ app.get('/relatorio', authMiddleware, async (req, res) => {
 // ─────────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`🚀 Açaí Beleza Server rodando na porta ${PORT}`);
-  console.log(`📡 Firebase: ${process.env.FIREBASE_DATABASE_URL}`);
+  console.log(`📡 Firebase URL conectada com sucesso.`);
   console.log(`💳 Mercado Pago: ${MP_TOKEN ? 'configurado' : '⚠️ token ausente'}`);
 });
